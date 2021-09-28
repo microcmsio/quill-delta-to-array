@@ -24,6 +24,7 @@ import * as obj from './helpers/object';
 import { GroupType } from './value-types';
 import { IOpAttributeSanitizerOptions } from './OpAttributeSanitizer';
 import { TableGrouper } from './grouper/TableGrouper';
+import { OpToArrayConverter } from './OpToArrayConverter';
 
 interface IQuillDeltaToHtmlConverterOptions
   extends IOpAttributeSanitizerOptions,
@@ -37,8 +38,6 @@ interface IQuillDeltaToHtmlConverterOptions
   multiLineParagraph?: boolean;
   multiLineCustomBlock?: boolean;
 }
-
-const BrTag = '<br/>';
 
 class QuillDeltaToArrayConverter {
   private options: IQuillDeltaToHtmlConverterOptions;
@@ -168,7 +167,7 @@ class QuillDeltaToArrayConverter {
           });
         }
       })
-      .join('');
+      .join(',');
   }
 
   _renderWithCallbacks(
@@ -197,27 +196,24 @@ class QuillDeltaToArrayConverter {
   }
 
   _renderList(list: ListGroup): string {
+    const listItems = list.items
+      .map((li: ListItem) => this._renderListItem(li))
+      .join(',');
+
     var firstItem = list.items[0];
-    return (
-      makeStartTag(this._getListTag(firstItem.item.op)) +
-      list.items.map((li: ListItem) => this._renderListItem(li)).join('') +
-      makeEndTag(this._getListTag(firstItem.item.op))
-    );
+    const hoge = {
+      type: 'block',
+      value: [JSON.parse(listItems)],
+      attributes: firstItem.item.op.attributes,
+    };
+    return JSON.stringify(hoge);
   }
 
   _renderListItem(li: ListItem): string {
-    //if (!isOuterMost) {
     li.item.op.attributes.indent = 0;
-    //}
-    var converter = new OpToHtmlConverter(li.item.op, this.converterOptions);
-    var parts = converter.getHtmlParts();
-    var liElementsHtml = this._renderInlines(li.item.ops, false);
-    return (
-      parts.openingTag +
-      liElementsHtml +
-      (li.innerList ? this._renderList(li.innerList) : '') +
-      parts.closingTag
-    );
+
+    var converter = new OpToArrayConverter(li.item.op);
+    return converter.getObject();
   }
 
   _renderTable(table: TableGroup): string {
@@ -255,66 +251,55 @@ class QuillDeltaToArrayConverter {
   }
 
   _renderBlock(bop: DeltaInsertOp, ops: DeltaInsertOp[]) {
-    var converter = new OpToHtmlConverter(bop, this.converterOptions);
-    var htmlParts = converter.getHtmlParts();
-
     if (bop.isCodeBlock()) {
-      return (
-        htmlParts.openingTag +
-        encodeHtml(
-          ops
-            .map((iop) =>
-              iop.isCustomEmbed()
-                ? this._renderCustom(iop, bop)
-                : iop.insert.value
-            )
-            .join('')
-        ) +
-        htmlParts.closingTag
+      const body = encodeHtml(
+        ops
+          .map((iop) =>
+            iop.isCustomEmbed()
+              ? this._renderCustom(iop, bop)
+              : iop.insert.value
+          )
+          .join('')
       );
+      const value = { type: 'text', value: body, attributes: {} };
+      const hoge = { type: 'block', value: value, attributes: bop.attributes };
+      return JSON.stringify(hoge);
     }
 
-    var inlines = ops.map((op) => this._renderInline(op, bop)).join('');
-    return htmlParts.openingTag + (inlines || BrTag) + htmlParts.closingTag;
+    var inlines = ops.map((op) => this._renderInline(op, bop)).join(',');
+    var hoge = {
+      type: 'block',
+      value: [JSON.parse(inlines)],
+      attributes: bop.attributes,
+    };
+
+    return JSON.stringify(hoge);
   }
 
   _renderInlines(ops: DeltaInsertOp[], isInlineGroup = true) {
     var opsLen = ops.length - 1;
-    var html = ops
+    var objects = ops
       .map((op: DeltaInsertOp, i: number) => {
         if (i > 0 && i === opsLen && op.isJustNewline()) {
-          return '';
+          return undefined;
         }
         return this._renderInline(op, null);
       })
-      .join('');
+      .filter((item) => item != null)
+      .join(',');
     if (!isInlineGroup) {
-      return html;
+      return objects;
     }
 
-    let startParaTag = makeStartTag(this.options.paragraphTag);
-    let endParaTag = makeEndTag(this.options.paragraphTag);
-    if (html === BrTag || this.options.multiLineParagraph) {
-      return startParaTag + html + endParaTag;
-    }
-    return (
-      startParaTag +
-      html
-        .split(BrTag)
-        .map((v) => {
-          return v === '' ? BrTag : v;
-        })
-        .join(endParaTag + startParaTag) +
-      endParaTag
-    );
+    return objects;
   }
 
   _renderInline(op: DeltaInsertOp, contextOp: DeltaInsertOp | null) {
     if (op.isCustomEmbed()) {
       return this._renderCustom(op, contextOp);
     }
-    var converter = new OpToHtmlConverter(op, this.converterOptions);
-    return converter.getHtml().replace(/\n/g, BrTag);
+    const converter = new OpToArrayConverter(op);
+    return converter.getObject();
   }
 
   _renderCustom(op: DeltaInsertOp, contextOp: DeltaInsertOp | null) {
