@@ -136,7 +136,7 @@ class QuillDeltaToArrayConverter {
 
   convert() {
     let groups = this.getGroupedOps();
-    return groups
+    let result = groups
       .map((group) => {
         if (group instanceof ListGroup) {
           return this._renderWithCallbacks(GroupType.List, group, () =>
@@ -168,6 +168,8 @@ class QuillDeltaToArrayConverter {
         }
       })
       .join(',');
+
+    return JSON.parse('[' + result + ']');
   }
 
   _renderWithCallbacks(

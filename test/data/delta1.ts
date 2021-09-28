@@ -59,6 +59,84 @@ var delta1 = {
     '<p><strong><code>some code</code></strong>',
     '<a href="#top" target="_blank"><em><code>Top</code></em></a></p>',
   ].join(''),
+  json: [
+    {
+      type: 'text',
+      value: 'link',
+      attrubute: { link: 'http://a.com/?x=a&amp;b=&#40;&#41;' },
+    },
+    { type: 'text', value: 'This ', attrubute: {} },
+    { type: 'text', value: 'is', attrubute: { font: 'monospace' } },
+    { type: 'text', value: ' a ', attrubute: {} },
+    { type: 'text', value: 'test', attrubute: { size: 'large' } },
+    { type: 'text', value: ' ', attrubute: {} },
+    {
+      type: 'text',
+      value: 'data',
+      attrubute: { bold: true, italic: true },
+    },
+    { type: 'text', value: ' ', attrubute: {} },
+    {
+      type: 'text',
+      value: 'that',
+      attrubute: { underline: true, strike: true },
+    },
+    { type: 'text', value: ' is ', attrubute: {} },
+    { type: 'text', value: 'will', attrubute: { color: '#e60000' } },
+    { type: 'text', value: ' ', attrubute: {} },
+    { type: 'text', value: 'test', attrubute: { background: '#ffebcc' } },
+    { type: 'text', value: ' ', attrubute: {} },
+    { type: 'text', value: 'the', attrubute: { script: 'sub' } },
+    { type: 'text', value: ' ', attrubute: {} },
+    { type: 'text', value: 'rendering', attrubute: { script: 'super' } },
+    { type: 'text', value: ' of ', attrubute: {} },
+    {
+      type: 'text',
+      value: 'inline',
+      attrubute: { link: 'http://yahoo' },
+    },
+    { type: 'text', value: ' ', attrubute: {} },
+    { type: 'formula', value: 'x=data', attrubute: {} },
+    { type: 'text', value: ' formats.', attrubute: {} },
+    {
+      type: 'block',
+      value: [
+        {
+          attrubute: {
+            indent: 0,
+            list: 'bullet',
+          },
+          type: 'text',
+          value: '\n',
+        },
+      ],
+      attributes: { list: 'bullet', indent: 0 },
+    },
+    {
+      type: 'block',
+      value: [
+        {
+          attrubute: {
+            indent: 0,
+            list: 'checked',
+          },
+          type: 'text',
+          value: '\n',
+        },
+      ],
+      attributes: { list: 'checked', indent: 0 },
+    },
+    {
+      type: 'text',
+      value: 'some code',
+      attrubute: { bold: true, code: true },
+    },
+    {
+      type: 'text',
+      value: 'Top',
+      attrubute: { italic: true, code: true, link: '#top' },
+    },
+  ],
 };
 
 export { delta1 };

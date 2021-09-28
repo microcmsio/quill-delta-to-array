@@ -11,8 +11,8 @@ describe('QuillDeltaToArrayConverter', function () {
       var qdc = new QuillDeltaToArrayConverter(delta1.ops, {
         classPrefix: 'noz',
       });
-      var html = qdc.convert();
-      assert.equal(html, delta1.html);
+      var json = qdc.convert();
+      assert.deepEqual(json, delta1.json);
     });
   });
 });
