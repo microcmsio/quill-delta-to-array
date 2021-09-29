@@ -102,12 +102,9 @@ var delta1 = {
       type: 'block',
       value: [
         {
-          attrubute: {
-            indent: 0,
-            list: 'bullet',
-          },
+          attrubute: {},
           type: 'text',
-          value: '\n',
+          value: 'list',
         },
       ],
       attributes: { list: 'bullet', indent: 0 },
@@ -116,12 +113,9 @@ var delta1 = {
       type: 'block',
       value: [
         {
-          attrubute: {
-            indent: 0,
-            list: 'checked',
-          },
+          attrubute: {},
           type: 'text',
-          value: '\n',
+          value: 'list',
         },
       ],
       attributes: { list: 'checked', indent: 0 },

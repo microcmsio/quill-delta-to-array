@@ -7,7 +7,7 @@ class OpToArrayConverter {
     this.op = op;
   }
 
-  getObject(): string {
+  getObject(): object {
     const insert = this.op.insert;
     const object = {
       type: insert.type,
@@ -15,7 +15,7 @@ class OpToArrayConverter {
       attrubute: this.op.attributes,
     };
 
-    return JSON.stringify(object);
+    return object;
   }
 }
 

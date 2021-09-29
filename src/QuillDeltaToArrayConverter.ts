@@ -136,96 +136,68 @@ class QuillDeltaToArrayConverter {
 
   convert() {
     let groups = this.getGroupedOps();
-    let result = groups
-      .map((group) => {
-        if (group instanceof ListGroup) {
-          return this._renderWithCallbacks(GroupType.List, group, () =>
-            this._renderList(<ListGroup>group)
-          );
-        } else if (group instanceof TableGroup) {
-          return this._renderWithCallbacks(GroupType.Table, group, () =>
-            this._renderTable(<TableGroup>group)
-          );
-        } else if (group instanceof BlockGroup) {
-          var g = <BlockGroup>group;
+    let result = groups.map((group) => {
+      if (group instanceof ListGroup) {
+        return this._renderList(<ListGroup>group);
+        // } else if (group instanceof TableGroup) {
+        //   return this._renderWithCallbacks(GroupType.Table, group, () =>
+        //     this._renderTable(<TableGroup>group)
+        //   );
+      } else if (group instanceof BlockGroup) {
+        var g = <BlockGroup>group;
+        return this._renderBlock(g.op, g.ops);
+      } else if (group instanceof BlotBlock) {
+        return this._renderCustom(group.op, null);
+      } else if (group instanceof VideoItem) {
+        // TODO: handling video
+        var converter = new OpToHtmlConverter(group.op, this.converterOptions);
+        return converter.getHtml();
+      } else {
+        // InlineGroup
+        return this._renderInlines((<InlineGroup>group).ops, true);
+      }
+    });
 
-          return this._renderWithCallbacks(GroupType.Block, group, () =>
-            this._renderBlock(g.op, g.ops)
-          );
-        } else if (group instanceof BlotBlock) {
-          return this._renderCustom(group.op, null);
-        } else if (group instanceof VideoItem) {
-          return this._renderWithCallbacks(GroupType.Video, group, () => {
-            var g = <VideoItem>group;
-            var converter = new OpToHtmlConverter(g.op, this.converterOptions);
-            return converter.getHtml();
-          });
-        } else {
-          // InlineGroup
-          return this._renderWithCallbacks(GroupType.InlineGroup, group, () => {
-            return this._renderInlines((<InlineGroup>group).ops, true);
-          });
-        }
-      })
-      .join(',');
+    const flattenResult = [].concat(...result);
 
-    return JSON.parse('[' + result + ']');
+    return flattenResult;
   }
 
-  _renderWithCallbacks(
-    groupType: GroupType,
-    group: TDataGroup,
-    myRenderFn: () => string
-  ) {
-    var html = '';
-    var beforeCb = this.callbacks['beforeRender_cb'];
-    html =
-      typeof beforeCb === 'function'
-        ? beforeCb.apply(null, [groupType, group])
-        : '';
-
-    if (!html) {
-      html = myRenderFn();
-    }
-
-    var afterCb = this.callbacks['afterRender_cb'];
-    html =
-      typeof afterCb === 'function'
-        ? afterCb.apply(null, [groupType, html])
-        : html;
-
-    return html;
+  _renderWithCallbacks(myRenderFn: () => object) {
+    // TODO: before/after block
+    return myRenderFn();
   }
 
-  _renderList(list: ListGroup): string {
-    const listItems = list.items
-      .map((li: ListItem) => this._renderListItem(li))
-      .join(',');
+  _renderList(list: ListGroup) {
+    console.dir(list, { depth: null });
 
-    var firstItem = list.items[0];
+    var listItems = list.items.map((li: ListItem) => this._renderListItem(li));
+    const flattenListItems = [].concat(...listItems);
+
+    // var firstItem = list.items[0];
     const hoge = {
       type: 'block',
-      value: [JSON.parse(listItems)],
-      attributes: firstItem.item.op.attributes,
+      value: flattenListItems,
+      attributes: list.items[0].item.op.attributes,
     };
-    return JSON.stringify(hoge);
+    return hoge;
   }
 
-  _renderListItem(li: ListItem): string {
+  _renderListItem(li: ListItem) {
     li.item.op.attributes.indent = 0;
 
-    var converter = new OpToArrayConverter(li.item.op);
-    return converter.getObject();
+    var object = this._renderInlines(li.item.ops, false);
+    return object;
   }
 
-  _renderTable(table: TableGroup): string {
-    return (
+  _renderTable(table: TableGroup) {
+    var hoge =
       makeStartTag('table') +
       makeStartTag('tbody') +
       table.rows.map((row: TableRow) => this._renderTableRow(row)).join('') +
       makeEndTag('tbody') +
-      makeEndTag('table')
-    );
+      makeEndTag('table');
+    return hoge;
   }
 
   _renderTableRow(row: TableRow): string {
@@ -265,17 +237,17 @@ class QuillDeltaToArrayConverter {
       );
       const value = { type: 'text', value: body, attributes: {} };
       const hoge = { type: 'block', value: value, attributes: bop.attributes };
-      return JSON.stringify(hoge);
+      return hoge;
     }
 
-    var inlines = ops.map((op) => this._renderInline(op, bop)).join(',');
+    var inlines = ops.map((op) => this._renderInline(op, bop));
     var hoge = {
       type: 'block',
-      value: [JSON.parse(inlines)],
+      value: inlines,
       attributes: bop.attributes,
     };
 
-    return JSON.stringify(hoge);
+    return hoge;
   }
 
   _renderInlines(ops: DeltaInsertOp[], isInlineGroup = true) {
@@ -287,13 +259,13 @@ class QuillDeltaToArrayConverter {
         }
         return this._renderInline(op, null);
       })
-      .filter((item) => item != null)
-      .join(',');
+      .filter((item) => item != null);
+    var flattenObjects = [].concat(...objects);
     if (!isInlineGroup) {
-      return objects;
+      return flattenObjects;
     }
 
-    return objects;
+    return flattenObjects;
   }
 
   _renderInline(op: DeltaInsertOp, contextOp: DeltaInsertOp | null) {

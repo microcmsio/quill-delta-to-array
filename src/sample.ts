@@ -39,35 +39,35 @@ import { QuillDeltaToArrayConverter } from './QuillDeltaToArrayConverter';
 //     {insert: "This is colorful", attributes: {color: '#f00'}}
 // ];
 var deltaOps = [
-  { insert: 'link', attributes: { link: 'http://a.com/?x=a&b=()' } },
-  { insert: 'This ' },
-  { attributes: { font: 'monospace' }, insert: 'is' },
-  { insert: ' a ' },
-  { attributes: { size: 'large' }, insert: 'test' },
-  { insert: ' ' },
-  { attributes: { italic: true, bold: true }, insert: 'data' },
-  { insert: ' ' },
-  { attributes: { underline: true, strike: true }, insert: 'that' },
-  { insert: ' is ' },
-  { attributes: { color: '#e60000' }, insert: 'will' },
-  { insert: ' ' },
-  { attributes: { background: '#ffebcc' }, insert: 'test' },
-  { insert: ' ' },
-  { attributes: { script: 'sub' }, insert: 'the' },
-  { insert: ' ' },
-  { attributes: { script: 'super' }, insert: 'rendering' },
-  { insert: ' of ' },
-  { attributes: { link: 'http://yahoo' }, insert: 'inline' },
-  { insert: ' ' },
-  { insert: { formula: 'x=data' } },
-  { insert: ' formats.\n' },
+  // { insert: 'link', attributes: { link: 'http://a.com/?x=a&b=()' } },
+  // { insert: 'This ' },
+  // { attributes: { font: 'monospace' }, insert: 'is' },
+  // { insert: ' a ' },
+  // { attributes: { size: 'large' }, insert: 'test' },
+  // { insert: ' ' },
+  // { attributes: { italic: true, bold: true }, insert: 'data' },
+  // { insert: ' ' },
+  // { attributes: { underline: true, strike: true }, insert: 'that' },
+  // { insert: ' is ' },
+  // { attributes: { color: '#e60000' }, insert: 'will' },
+  // { insert: ' ' },
+  // { attributes: { background: '#ffebcc' }, insert: 'test' },
+  // { insert: ' ' },
+  // { attributes: { script: 'sub' }, insert: 'the' },
+  // { insert: ' ' },
+  // { attributes: { script: 'super' }, insert: 'rendering' },
+  // { insert: ' of ' },
+  // { attributes: { link: 'http://yahoo' }, insert: 'inline' },
+  // { insert: ' ' },
+  // { insert: { formula: 'x=data' } },
+  // { insert: ' formats.\n' },
   { insert: 'list' },
   { insert: '\n', attributes: { list: 'bullet' } },
-  { insert: 'list' },
-  { insert: '\n', attributes: { list: 'checked' } },
-  { insert: 'some code', attributes: { code: true, bold: true } },
-  { attributes: { italic: true, link: '#top', code: true }, insert: 'Top' },
-  { insert: '\n' },
+  // { insert: 'list' },
+  // { insert: '\n', attributes: { list: 'checked' } },
+  // { insert: 'some code', attributes: { code: true, bold: true } },
+  // { attributes: { italic: true, link: '#top', code: true }, insert: 'Top' },
+  // { insert: '\n' },
 ];
 // var deltaOps =[
 //     {
@@ -92,7 +92,7 @@ var cfg = {};
 
 var converter2 = new QuillDeltaToArrayConverter(deltaOps, cfg);
 var html = converter2.convert();
-console.log(html);
+console.dir(html, { depth: null });
 
 // var ops = [{
 //     insert: 'hello',
