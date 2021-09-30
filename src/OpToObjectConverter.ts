@@ -1,6 +1,6 @@
 import { DeltaInsertOp } from './DeltaInsertOp';
 
-class OpToArrayConverter {
+class OpToObjectConverter {
   private op: DeltaInsertOp;
 
   constructor(op: DeltaInsertOp) {
@@ -19,4 +19,4 @@ class OpToArrayConverter {
   }
 }
 
-export { OpToArrayConverter };
+export { OpToObjectConverter };

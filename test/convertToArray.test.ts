@@ -1,14 +1,14 @@
 import 'mocha';
 import * as assert from 'assert';
 
-import { QuillDeltaToArrayConverter } from './../src/QuillDeltaToArrayConverter';
+import { QuillDeltaToObjectConverter } from './../src/QuillDeltaToObjectConverter';
 
 import { delta1 } from './data/delta1';
 
-describe('QuillDeltaToArrayConverter', function () {
+describe('QuillDeltaToObjectConverter', function () {
   describe('constructor()', function () {
     it('should instantiate return proper html', function () {
-      var qdc = new QuillDeltaToArrayConverter(delta1.ops);
+      var qdc = new QuillDeltaToObjectConverter(delta1.ops);
       var json = qdc.convert();
       assert.deepEqual(json, delta1.json);
     });
@@ -25,7 +25,7 @@ describe('QuillDeltaToArrayConverter', function () {
     ];
 
     it('should render object', function () {
-      var qdc = new QuillDeltaToArrayConverter(ops2);
+      var qdc = new QuillDeltaToObjectConverter(ops2);
 
       var object = qdc.convert();
       var expected = [
@@ -59,7 +59,7 @@ describe('QuillDeltaToArrayConverter', function () {
           },
         },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops);
+      var qdc = new QuillDeltaToObjectConverter(ops);
       var object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -78,7 +78,7 @@ describe('QuillDeltaToArrayConverter', function () {
         },
       ]);
 
-      var qdc = new QuillDeltaToArrayConverter([
+      var qdc = new QuillDeltaToObjectConverter([
         {
           insert: 'mention',
           attributes: {
@@ -116,7 +116,7 @@ describe('QuillDeltaToArrayConverter', function () {
           insert: 'internal link',
         },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops);
+      var qdc = new QuillDeltaToObjectConverter(ops);
       var object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -137,7 +137,7 @@ describe('QuillDeltaToArrayConverter', function () {
           attributes: { link: 'http://aha' },
         },
       ];
-      let qdc = new QuillDeltaToArrayConverter(ops);
+      let qdc = new QuillDeltaToObjectConverter(ops);
       let object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -159,7 +159,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { insert: '\n', attributes: { list: 'bullet' } },
         { insert: '\n', attributes: { list: 'ordered' } },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops4);
+      var qdc = new QuillDeltaToObjectConverter(ops4);
       var object = qdc.convert();
 
       var expected = [
@@ -203,7 +203,7 @@ describe('QuillDeltaToArrayConverter', function () {
 
     it('should render as separate paragraphs', function () {
       var ops4 = [{ insert: 'hello\nhow areyou?\n\nbye' }];
-      var qdc = new QuillDeltaToArrayConverter(ops4);
+      var qdc = new QuillDeltaToObjectConverter(ops4);
       var object = qdc.convert();
 
       var expected = [
@@ -249,7 +249,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { insert: '\n', attributes: { direction: 'rtl' } },
         { insert: '\n', attributes: { indent: 2 } },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops4);
+      var qdc = new QuillDeltaToObjectConverter(ops4);
       var object = qdc.convert();
 
       const expected = [
@@ -280,7 +280,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { attributes: { link: 'http://#' }, insert: 'C' },
         { insert: '\n' },
       ];
-      let qdc = new QuillDeltaToArrayConverter(ops);
+      let qdc = new QuillDeltaToObjectConverter(ops);
       let object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -315,7 +315,7 @@ describe('QuillDeltaToArrayConverter', function () {
     it(`should return empty string if renderer not defined for
                            custom blot`, () => {
       let ops = [{ insert: { customstuff: 'my val' } }];
-      let qdc = new QuillDeltaToArrayConverter(ops);
+      let qdc = new QuillDeltaToObjectConverter(ops);
       assert.deepEqual(qdc.convert(), []);
     });
 
@@ -324,7 +324,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { insert: { bolditalic: 'my text' } },
         { insert: { blah: 1 } },
       ];
-      let qdc = new QuillDeltaToArrayConverter(ops);
+      let qdc = new QuillDeltaToObjectConverter(ops);
       qdc.renderCustomWith((op) => {
         if (op.insert.type === 'bolditalic') {
           return {

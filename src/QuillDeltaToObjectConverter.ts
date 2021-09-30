@@ -15,7 +15,7 @@ import { encodeHtml } from './funcs-html';
 import * as obj from './helpers/object';
 import { IOpAttributeSanitizerOptions } from './OpAttributeSanitizer';
 import { TableGrouper } from './grouper/TableGrouper';
-import { OpToArrayConverter } from './OpToArrayConverter';
+import { OpToObjectConverter } from './OpToObjectConverter';
 
 interface IQuillDeltaToHtmlConverterOptions
   extends IOpAttributeSanitizerOptions,
@@ -30,7 +30,7 @@ interface IQuillDeltaToHtmlConverterOptions
   multiLineCustomBlock?: boolean;
 }
 
-class QuillDeltaToArrayConverter {
+class QuillDeltaToObjectConverter {
   private options: IQuillDeltaToHtmlConverterOptions;
   private rawDeltaOps: any[] = [];
 
@@ -170,7 +170,7 @@ class QuillDeltaToArrayConverter {
       return this._renderCustom(op, contextOp);
     }
 
-    const converter = new OpToArrayConverter(op);
+    const converter = new OpToObjectConverter(op);
     return converter.getObject();
   }
 
@@ -189,4 +189,4 @@ class QuillDeltaToArrayConverter {
   }
 }
 
-export { QuillDeltaToArrayConverter };
+export { QuillDeltaToObjectConverter };
