@@ -8,9 +8,7 @@ import { delta1 } from './data/delta1';
 describe('QuillDeltaToArrayConverter', function () {
   describe('constructor()', function () {
     it('should instantiate return proper html', function () {
-      var qdc = new QuillDeltaToArrayConverter(delta1.ops, {
-        classPrefix: 'noz',
-      });
+      var qdc = new QuillDeltaToArrayConverter(delta1.ops);
       var json = qdc.convert();
       assert.deepEqual(json, delta1.json);
     });
@@ -118,9 +116,7 @@ describe('QuillDeltaToArrayConverter', function () {
           insert: 'internal link',
         },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops, {
-        linkRel: 'license',
-      });
+      var qdc = new QuillDeltaToArrayConverter(ops);
       var object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -207,9 +203,7 @@ describe('QuillDeltaToArrayConverter', function () {
 
     it('should render as separate paragraphs', function () {
       var ops4 = [{ insert: 'hello\nhow areyou?\n\nbye' }];
-      var qdc = new QuillDeltaToArrayConverter(ops4, {
-        multiLineParagraph: false,
-      });
+      var qdc = new QuillDeltaToArrayConverter(ops4);
       var object = qdc.convert();
 
       var expected = [
@@ -255,7 +249,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { insert: '\n', attributes: { direction: 'rtl' } },
         { insert: '\n', attributes: { indent: 2 } },
       ];
-      var qdc = new QuillDeltaToArrayConverter(ops4, { paragraphTag: 'div' });
+      var qdc = new QuillDeltaToArrayConverter(ops4);
       var object = qdc.convert();
 
       const expected = [
@@ -286,7 +280,7 @@ describe('QuillDeltaToArrayConverter', function () {
         { attributes: { link: 'http://#' }, insert: 'C' },
         { insert: '\n' },
       ];
-      let qdc = new QuillDeltaToArrayConverter(ops, { linkTarget: '' });
+      let qdc = new QuillDeltaToArrayConverter(ops);
       let object = qdc.convert();
 
       assert.deepEqual(object, [
@@ -314,6 +308,45 @@ describe('QuillDeltaToArrayConverter', function () {
           value: 'C',
         },
       ]);
+    });
+  });
+
+  describe('custom types', () => {
+    it(`should return empty string if renderer not defined for
+                           custom blot`, () => {
+      let ops = [{ insert: { customstuff: 'my val' } }];
+      let qdc = new QuillDeltaToArrayConverter(ops);
+      assert.deepEqual(qdc.convert(), []);
+    });
+
+    it('should render custom insert types with given renderer', () => {
+      let ops = [
+        { insert: { bolditalic: 'my text' } },
+        { insert: { blah: 1 } },
+      ];
+      let qdc = new QuillDeltaToArrayConverter(ops);
+      qdc.renderCustomWith((op) => {
+        if (op.insert.type === 'bolditalic') {
+          return {
+            type: 'text',
+            value: op.insert.value,
+            attribute: { bold: true, italic: true },
+          };
+        }
+        return undefined;
+      });
+      let object = qdc.convert();
+      var expected = [
+        {
+          type: 'text',
+          value: 'my text',
+          attribute: {
+            bold: true,
+            italic: true,
+          },
+        },
+      ];
+      assert.deepEqual(object, expected);
     });
   });
 });
