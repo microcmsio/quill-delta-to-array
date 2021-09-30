@@ -57,7 +57,7 @@ converter.renderCustomWith(function(customOp, contextOp){
         return {
             type: 'text',
             value: op.insert.value,
-            attribute: { bold: true, italic: true },
+            attributes: { bold: true, italic: true },
         };
     }
     return undefined;

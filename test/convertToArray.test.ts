@@ -29,7 +29,7 @@ describe('QuillDeltaToObjectConverter', function () {
 
       var object = qdc.convert();
       var expected = [
-        { type: 'text', value: 'this is text', attrubute: {} },
+        { type: 'text', value: 'this is text', attributes: {} },
         {
           type: 'block',
           value: {
@@ -66,7 +66,7 @@ describe('QuillDeltaToObjectConverter', function () {
         {
           type: 'text',
           value: 'mention',
-          attrubute: {
+          attributes: {
             mention: {
               'end-point': 'http://abc.com',
               class: 'abc',
@@ -92,7 +92,7 @@ describe('QuillDeltaToObjectConverter', function () {
         {
           type: 'text',
           value: 'mention',
-          attrubute: {
+          attributes: {
             mentions: true,
             mention: { slug: 'aa' },
           },
@@ -123,9 +123,9 @@ describe('QuillDeltaToObjectConverter', function () {
         {
           type: 'text',
           value: 'external link',
-          attrubute: { link: '#', rel: 'nofollow noopener' },
+          attributes: { link: '#', rel: 'nofollow noopener' },
         },
-        { type: 'text', value: 'internal link', attrubute: { link: '#' } },
+        { type: 'text', value: 'internal link', attributes: { link: '#' } },
       ]);
     });
 
@@ -141,11 +141,11 @@ describe('QuillDeltaToObjectConverter', function () {
       let object = qdc.convert();
 
       assert.deepEqual(object, [
-        { type: 'image', value: 'http://yahoo.com/abc.jpg', attrubute: {} },
+        { type: 'image', value: 'http://yahoo.com/abc.jpg', attributes: {} },
         {
           type: 'image',
           value: 'http://yahoo.com/def.jpg',
-          attrubute: { link: 'http://aha' },
+          attributes: { link: 'http://aha' },
         },
       ]);
     });
@@ -163,14 +163,14 @@ describe('QuillDeltaToObjectConverter', function () {
       var object = qdc.convert();
 
       var expected = [
-        { type: 'text', value: 'mr', attrubute: {} },
+        { type: 'text', value: 'mr', attributes: {} },
         {
           type: 'block',
           value: [
             {
               type: 'text',
               value: 'hello',
-              attrubute: {},
+              attributes: {},
             },
           ],
           attributes: { list: 'ordered', indent: 0 },
@@ -181,7 +181,7 @@ describe('QuillDeltaToObjectConverter', function () {
             {
               type: 'text',
               value: 'there',
-              attrubute: {},
+              attributes: {},
             },
           ],
           attributes: { list: 'bullet', indent: 0 },
@@ -192,7 +192,7 @@ describe('QuillDeltaToObjectConverter', function () {
             {
               type: 'text',
               value: '\n',
-              attrubute: {},
+              attributes: {},
             },
           ],
           attributes: { list: 'ordered', indent: 0 },
@@ -208,32 +208,32 @@ describe('QuillDeltaToObjectConverter', function () {
 
       var expected = [
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: 'hello',
         },
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: '\n',
         },
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: 'how areyou?',
         },
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: '\n',
         },
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: '\n',
         },
         {
-          attrubute: {},
+          attributes: {},
           type: 'text',
           value: 'bye',
         },
@@ -255,17 +255,17 @@ describe('QuillDeltaToObjectConverter', function () {
       const expected = [
         {
           type: 'block',
-          value: [{ type: 'text', value: 'mr', attrubute: {} }],
+          value: [{ type: 'text', value: 'mr', attributes: {} }],
           attributes: { align: 'center' },
         },
         {
           type: 'block',
-          value: [{ type: 'text', value: '\n', attrubute: {} }],
+          value: [{ type: 'text', value: '\n', attributes: {} }],
           attributes: { direction: 'rtl' },
         },
         {
           type: 'block',
-          value: [{ type: 'text', value: '\n', attrubute: {} }],
+          value: [{ type: 'text', value: '\n', attributes: {} }],
           attributes: { indent: 2 },
         },
       ];
@@ -285,7 +285,7 @@ describe('QuillDeltaToObjectConverter', function () {
 
       assert.deepEqual(object, [
         {
-          attrubute: {
+          attributes: {
             link: 'http://#',
             target: '_self',
           },
@@ -293,7 +293,7 @@ describe('QuillDeltaToObjectConverter', function () {
           value: 'A',
         },
         {
-          attrubute: {
+          attributes: {
             link: 'http://#',
             target: '_blank',
           },
@@ -301,7 +301,7 @@ describe('QuillDeltaToObjectConverter', function () {
           value: 'B',
         },
         {
-          attrubute: {
+          attributes: {
             link: 'http://#',
           },
           type: 'text',
@@ -330,7 +330,7 @@ describe('QuillDeltaToObjectConverter', function () {
           return {
             type: 'text',
             value: op.insert.value,
-            attribute: { bold: true, italic: true },
+            attributes: { bold: true, italic: true },
           };
         }
         return undefined;
@@ -340,7 +340,7 @@ describe('QuillDeltaToObjectConverter', function () {
         {
           type: 'text',
           value: 'my text',
-          attribute: {
+          attributes: {
             bold: true,
             italic: true,
           },

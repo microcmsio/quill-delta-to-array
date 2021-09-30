@@ -12,7 +12,7 @@ class OpToObjectConverter {
     const object = {
       type: insert.type,
       value: insert.value,
-      attrubute: this.op.attributes,
+      attributes: this.op.attributes,
     };
 
     return object;
