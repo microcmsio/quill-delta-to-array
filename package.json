@@ -1,7 +1,7 @@
 {
-  "name": "quill-delta-to-html",
-  "version": "0.12.0",
-  "description": "Converts Quill's delta ops to HTML",
+  "name": "quill-delta-to-object",
+  "version": "0.0.1",
+  "description": "Converts Quill's delta ops to Object",
   "main": "./dist/commonjs/main.js",
   "types": "./dist/commonjs/main.d.ts",
   "dependencies": {
@@ -32,7 +32,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/nozer/quill-delta-to-html.git"
+    "url": "git+ssh://git@github.com/microcms/quill-delta-to-object.git"
   },
   "keywords": [
     "quill",
@@ -42,9 +42,9 @@
   "author": "Nihat Özer <nihatforweb@gmail.com>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/nozer/quill-delta-to-html/issues"
+    "url": "https://github.com/microcms/quill-delta-to-object/issues"
   },
-  "homepage": "https://github.com/nozer/quill-delta-to-html#readme",
+  "homepage": "https://github.com/microcms/quill-delta-to-object#readme",
   "nyc": {
     "include": [
       "src/**/*.ts"
