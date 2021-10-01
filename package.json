@@ -32,19 +32,19 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/microcms/quill-delta-to-object.git"
+    "url": "git+ssh://git@github.com/microcmsio/quill-delta-to-object.git"
   },
   "keywords": [
     "quill",
     "delta",
     "html"
   ],
-  "author": "Nihat Özer <nihatforweb@gmail.com>",
-  "license": "ISC",
+  "author": "Ryosuke Hiramatsu <hiramatsu@microcms.co.jp>",
+  "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/microcms/quill-delta-to-object/issues"
+    "url": "https://github.com/microcmsio/quill-delta-to-object/issues"
   },
-  "homepage": "https://github.com/microcms/quill-delta-to-object#readme",
+  "homepage": "https://github.com/microcmsio/quill-delta-to-object#readme",
   "nyc": {
     "include": [
       "src/**/*.ts"
