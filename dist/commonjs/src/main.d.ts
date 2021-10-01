@@ -1,4 +1,5 @@
 export { QuillDeltaToHtmlConverter } from './QuillDeltaToHtmlConverter';
+export { QuillDeltaToObjectConverter } from './QuillDeltaToObjectConverter';
 export { OpToHtmlConverter } from './OpToHtmlConverter';
 export {
   InlineGroup,

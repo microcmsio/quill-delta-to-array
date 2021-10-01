@@ -1,4 +1,4 @@
 declare class InsertOpDenormalizer {
-    static denormalize(op: any): any[];
+  static denormalize(op: any): any[];
 }
 export { InsertOpDenormalizer };

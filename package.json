@@ -22,9 +22,7 @@
     "typescript": "^2"
   },
   "scripts": {
-    "browserbundle": "./node_modules/browserify/bin/cmd.js ./dist/commonjs/QuillDeltaToHtmlConverter.js -o ./dist/browser/QuillDeltaToHtmlConverter.bundle.js -s QuillDeltaToHtmlConverter ",
-    "browser": "npm run browserbundle && echo '; window.QuillDeltaToHtmlConverter = window.QuillDeltaToHtmlConverter ? window.QuillDeltaToHtmlConverter.QuillDeltaToHtmlConverter : window.QuillDeltaToHtmlConverter; ' >>  ./dist/browser/QuillDeltaToHtmlConverter.bundle.js ",
-    "build": "./node_modules/typescript/bin/tsc &&  npm run browser ",
+    "build": "./node_modules/typescript/bin/tsc",
     "test": "./node_modules/nyc/bin/nyc.js ./node_modules/mocha/bin/mocha --require ts-node/register -b \"./test/**/*.ts\"  ",
     "testArray": "./node_modules/nyc/bin/nyc.js ./node_modules/mocha/bin/mocha --require ts-node/register -b \"./test/convertToArray.test.ts\"  ",
     "coverage": "./node_modules/nyc/bin/nyc.js report --reporter=text-lcov | coveralls ",
