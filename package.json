@@ -2,8 +2,8 @@
   "name": "quill-delta-to-object",
   "version": "0.0.1",
   "description": "Converts Quill's delta ops to Object",
-  "main": "./dist/commonjs/main.js",
-  "types": "./dist/commonjs/main.d.ts",
+  "main": "./dist/commonjs/src/main.js",
+  "types": "./dist/commonjs/src/main.d.ts",
   "dependencies": {
     "lodash.isequal": "^4.5.0"
   },
