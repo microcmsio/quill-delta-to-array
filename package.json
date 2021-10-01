@@ -1,6 +1,6 @@
 {
   "name": "quill-delta-to-object",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Converts Quill's delta ops to Object",
   "main": "./dist/commonjs/src/main.js",
   "types": "./dist/commonjs/src/main.d.ts",
