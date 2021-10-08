@@ -74,7 +74,7 @@ var QuillDeltaToObjectConverter = (function () {
         })
             .filter(function (item) { return item != null; });
         var flattenResult = [].concat.apply([], result);
-        return flattenResult;
+        return { ops: flattenResult };
     };
     QuillDeltaToObjectConverter.prototype._renderList = function (list) {
         var _this = this;

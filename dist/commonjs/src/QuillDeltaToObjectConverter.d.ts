@@ -6,7 +6,9 @@ declare class QuillDeltaToObjectConverter {
   private callbacks;
   constructor(deltaOps: any[]);
   getGroupedOps(): TDataGroup[];
-  convert(): never[];
+  convert(): {
+    ops: never[];
+  };
   _renderList(
     list: ListGroup
   ): {
