@@ -107,7 +107,7 @@ class QuillDeltaToObjectConverter {
       .filter((item) => item != null);
 
     const flattenResult = [].concat(...result);
-    return { ops: flattenResult };
+    return { contents: flattenResult };
   }
 
   _renderList(list: ListGroup) {
