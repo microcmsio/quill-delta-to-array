@@ -106,8 +106,29 @@ class QuillDeltaToObjectConverter {
       })
       .filter((item) => item != null);
 
-    const flattenResult = [].concat(...result);
-    return { contents: flattenResult };
+    const blockedResult = []
+      .concat(...result)
+      .reduce(function (resultList: any, currentValue: any) {
+        const isTextType = currentValue.type === 'text';
+        if (!isTextType) {
+          return [...resultList, currentValue];
+        }
+
+        const beforeElement: any = resultList.pop();
+        const isBeforeElementHasTextBlockType =
+          beforeElement.type === 'textBlock';
+        if (isBeforeElementHasTextBlockType) {
+          return [
+            ...resultList,
+            { ...beforeElement, value: [...beforeElement.value, currentValue] },
+          ];
+        }
+
+        resultList.push(beforeElement);
+        return [...resultList, { type: 'textBlock', value: [currentValue] }];
+      }, []);
+
+    return { contents: blockedResult };
   }
 
   _renderList(list: ListGroup) {
