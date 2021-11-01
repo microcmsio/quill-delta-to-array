@@ -7,6 +7,9 @@ var deltaOps = [
     insert: 'Hello World',
   },
   {
+    insert: 'Hello World',
+  },
+  {
     attributes: {
       header: 1,
     },

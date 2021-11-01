@@ -114,6 +114,9 @@ class QuillDeltaToObjectConverter {
           return [...resultList, currentValue];
         }
 
+        if (resultList.length == 0) {
+          return [...resultList, { type: 'textBlock', value: [currentValue] }];
+        }
         const beforeElement: any = resultList.pop();
         const isBeforeElementHasTextBlockType =
           beforeElement.type === 'textBlock';

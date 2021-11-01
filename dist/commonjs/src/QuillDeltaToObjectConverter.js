@@ -87,6 +87,9 @@ var QuillDeltaToObjectConverter = (function () {
             if (!isTextType) {
                 return resultList.concat([currentValue]);
             }
+            if (resultList.length == 0) {
+                return resultList.concat([{ type: 'textBlock', value: [currentValue] }]);
+            }
             var beforeElement = resultList.pop();
             var isBeforeElementHasTextBlockType = beforeElement.type === 'textBlock';
             if (isBeforeElementHasTextBlockType) {
